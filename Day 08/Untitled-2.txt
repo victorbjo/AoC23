@@ -1,0 +1,33 @@
+input = open("Day 08/input.txt", "r").read().split("\n")
+directions = list(input.pop(0))
+directions_base = directions.copy()
+input.pop(0)
+next_node = 0
+nodes = []
+directions_list = []
+name_list = []
+for x, direction in enumerate(input):
+    directions_list.append(direction[direction.index("(")+1:direction.index((")"))].split(","))
+    name_list.append(direction[:direction.index("=")].strip())
+    if name_list[-1][-1] == "A":
+        nodes.append(x)
+for x, char in enumerate(directions):
+    temp_nodes = []
+    if char == "L":
+        for node in nodes:
+            temp_nodes.append(directions_list[node][0].strip())
+    else:
+        for node in nodes:
+            temp_nodes.append(directions_list[node][1].strip())
+    nodes = []
+    z = True
+    for node in temp_nodes:
+        if node[-1] != "Z":
+            z = False
+        nodes.append(name_list.index(node))
+    if z:
+        print("Found ZZ", x+1)
+        break
+    elif x == len(directions)-1:
+        directions += directions_base
+    

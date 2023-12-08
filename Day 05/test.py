@@ -36,7 +36,7 @@ def get_value(value, map):
         return value
     else:
         return (map_temp[1]-map_temp[0])+value
-print(maps)
+#print(maps)
 
 class Seed:
     def __init__(self, start, range):
@@ -44,6 +44,7 @@ class Seed:
         self.range = range
         self.origin = start
         self.end = start+range
+        self.changes = 0
     def __repr__(self):
         return f"Seed: {self.start} - {self.end}. Origin: {self.origin}, Range: {self.range}"
     
@@ -55,27 +56,62 @@ seed_pairs : [Seed] = [Seed(int(seeds[x]), int(seeds[x+1])) for x in range(0, le
 #Does it make sense to merge seeds again? Probably not, depends on amount of seeds after each round
 #print()
 for pair in seed_pairs:
-    print(pair)
-for map in maps[:6]:
+    pass
+    #print(pair)
+num = 0
+import time
+
+print("SEEDS")
+print(len(seed_pairs))
+print(len(maps[0]))
+print(len(maps[1]))
+print(len(maps[2]))
+print(len(maps[3]))
+print(len(maps[4]))
+print(len(maps[5]))
+print(len(maps[6]))
+new_seed_pairs = []
+for x,map in enumerate(maps[:6]):
+    print(len(seed_pairs))
+    print("MAP"), x
+    print(len(new_seed_pairs))
     for seed in seed_pairs:
+        if len(seed_pairs) % 1000:
+            print(len(seed_pairs))
         start_range = find_closest_range(seed.start, map)
         end_range = find_closest_range(seed.end, map)
-        if start_range[0] == end_range[0]:
+        if start_range == end_range:
             seed.start = get_value(seed.start, map)
             seed.end = get_value(seed.end, map)
-            if seed.start-seed.range == 0:
-                print("HAT")
+            seed.changes += 1
         else:
+            seed.changes += 1
+            if seed.changes > 22: #seed.start == 1526291750 and seed.end == 1803056005 
+                1506703078 - 1568473870
+                1584043708 - 1808006977
+                print("HERE MF")
+                print(start_range, end_range)
+                break
             EoS_range = max (int(start_range[0]+start_range[2]-1), 0)
-            seed_pairs.append(Seed(EoS_range+1, seed.end-(EoS_range+1)))
+            num += 1
+            new_seed_pairs.append(Seed(EoS_range+1, seed.end-(EoS_range+1)))
+            if seed_pairs[-1].range == 0:
+                seed_pairs.pop()
+
             seed.end = EoS_range
             seed.start = get_value(seed.start, map)
             seed.end = get_value(seed.end, map)
             seed.range = seed.end-seed.start
-        if (seed.range == 0): print(seed, "SEED")
-        if map == maps[6]:
-            break
-print(maps[6])       
+            if x > 1:
+                time.sleep(5)
+    if map == maps[1]:
+        break
+print("HERE")
+for x in new_seed_pairs:
+    print(x)
+#print(maps[6])       
 for pair in seed_pairs:
-    print(pair)
-print(find_closest_range(103, maps[0]))
+    pass
+    #print(pair)
+#print(find_closest_range(103, maps[0]))
+
