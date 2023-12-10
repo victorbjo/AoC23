@@ -1,0 +1,85 @@
+input = open("Day 10/input.txt", "r").read().split("\n")
+loop = [list(line) for line in input]
+
+class pipe():
+    def __init__(self, dist, type, coordinates) -> None:
+        self.dist = dist
+        self.type = type
+        self.coordinates = coordinates
+    def __str__(self) -> str:
+        return f"Pipe: {self.type} at {self.coordinates} with distance {self.dist}"
+for line in input:
+    if line.count("S"):
+        start = (input.index(line), line.index("S"))
+print(start)
+pipe_types = {
+"|":[(-1,0),(1,0)], #is a vertical pipe connecting north and south. (0,0, top left corner)
+"-":[(0,-1),(0,1)], #is a horizontal pipe connecting east and west.
+"L":[(-1,0),(0,1)], #is a 90-degree bend connecting north and east.
+"J":[(0,-1),(-1,0)], #is a 90-degree bend connecting north and west.
+"7":[(0,-1),(1,0)], #is a 90-degree bend connecting south and west.
+"F":[(1,0),(0,1)], #is a 90-degree bend connecting south and east.
+".":[], #is ground; there is no pipe in this tile.
+"S":[(0,1),(0,-1),(1,0),(-1,0)], #is the starting tile, located at row 0, column 0.
+}
+def check_compat(pipe0, pipe1):
+    new_coords = (pipe0.coordinates[0]-pipe1.coordinates[0], pipe0.coordinates[1]-pipe1.coordinates[1])
+    #print(new_coords)
+    #print(pipe_types[pipe1.type])
+    return new_coords in pipe_types[pipe1.type]
+def breath_first_search(start):
+    pipes_visited = []
+    pipes_q = [start]
+    max_dist = 0
+    while pipes_q:
+        current_pipe = pipes_q.pop(0)
+        if current_pipe.coordinates in pipes_visited:
+            continue
+        max_dist = max(max_dist, current_pipe.dist)
+        pipes_visited.append(current_pipe.coordinates)
+        #pipes_visited.append(current_pipe)
+        for pipe_type in pipe_types[current_pipe.type]:
+            new_coords = (current_pipe.coordinates[0]+pipe_type[0], current_pipe.coordinates[1]+pipe_type[1])
+            if new_coords[0] < 0 or new_coords[1] < 0 or new_coords[0] >= len(loop) or new_coords[1] >= len(loop[0]):
+                continue
+            if loop[new_coords[0]][new_coords[1]] != ".":
+                new_pipe = pipe(current_pipe.dist+1, loop[new_coords[0]][new_coords[1]], new_coords)
+                if check_compat(current_pipe, new_pipe):
+                    pipes_q.append(new_pipe)
+                #print(new_pipe,check_compat(current_pipe, new_pipe))
+        #time.sleep(4)
+        #print(current_pipe.dist, current_pipe.coordinates, current_pipe.type)
+    return(max_dist, pipes_visited)
+def part1(): #Breadth first search
+    start_pipe = pipe(0, "S", start)
+    return breath_first_search(start_pipe)[0]
+#print(part1())
+
+def part2():
+    start_pipe = pipe(0, "S", start)
+    loop_visited = breath_first_search(start_pipe)[1]
+    loop_copy = [line.copy() for line in loop]
+    for char in loop_visited:
+        loop_copy[char[0]][char[1]] = "X"
+    print("Breath first search done")
+    count = 0
+    horizontal = [] #Lists used to start search
+    vertical = [] #Basically go out from these points, if they are not part of loop visited, then add to list
+    visited = []
+    for x in range(len(loop)):
+        pipe_passes = 0
+        last_pipe = (x,0)
+        for y in range(len(loop[0])):
+            if loop_copy[x][y] != "X" and (x,y) not in visited and pipe_passes%2 != 0 and (x != 0 and x != len(loop)-1 and y != 0 and y != len(loop[0])-1):
+                loop_copy[x][y] = "I"
+                count += 1
+            elif loop_copy[x][y] == "X" and not check_compat(pipe(last_pipe[0], loop[last_pipe[0]][last_pipe[1]], last_pipe), pipe(x, loop[x][y], (x,y))):
+                pipe_passes += 1
+    queue = [*horizontal.copy()+vertical.copy()]
+    #print(queue)
+    
+    for line in loop_copy:
+        print("".join(line))
+    print(count)
+
+part2()
