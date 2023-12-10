@@ -118,7 +118,7 @@ for x in range(len(loop)):
 for line in new_loop:
     print("".join(line))
 
-
+loop0 = loop
 def part2(loop = new_loop):
     print("Starting part 2")
     start_pipe = pipe(0, "S", (start[0]*3+1, start[1]*3+1))
@@ -163,9 +163,20 @@ def part2(loop = new_loop):
     print(count)
     dots = 0
     print(dots)
+    new_list = []
     for x in range(1, len(new_loop), 3):
+        new_list.append([])
         for y in range(1, len(new_loop[0]), 3):
             if new_loop[x][y] not in ["X", "O", ","]:
+                new_list[-1].append("k")
                 dots += 1
+            elif new_loop[x][y] == "X":
+                new_list[-1].append(loop0[int(x/3)][int(y/3)])
+                #dots += 1
+            else:
+                new_list[-1].append("O")
+            
     print(dots)
+    for line in new_list:
+        print("".join(line))
 part2()
