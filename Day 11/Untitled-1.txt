@@ -1,0 +1,30 @@
+    def expand(list_to_expand):
+        expanded_list = []
+        for x, row in enumerate(list_to_expand):
+            if all(char == "." for char in row):
+                expanded_list.append(row)
+            expanded_list.append(row)
+        return expanded_list
+    #Expand list by rows, rotate 90 deg C, expand list by rows, rotate 90 deg CC
+    input=rotate_2d_list_counterclockwise(expand(rotate_2d_list_clockwise(expand(input))))
+    class Galaxy():
+        def __init__(self, coords, id) -> None:
+            self.coords = coords
+            self.id = id
+        def calc_dist(self, node0):
+            return (abs(self.coords[0]-node0.coords[0])+abs(self.coords[1]-node0.coords[1]))
+        def __repr__(self) -> str:
+            return (f"Coords: {self.coords}, ID:{self.id}")
+    galaxy_counter = 0
+    nodes : list[Galaxy] = []
+    for x, line in enumerate(input):
+        for y, char in enumerate(line):
+            if str(char) == "#":
+                line[y] = str(galaxy_counter)
+                nodes.append(Galaxy((x,y),galaxy_counter))
+                galaxy_counter += 1
+    sum = 0
+    for x, node in enumerate(nodes):
+        for node0 in nodes[x+1:]:
+            sum += node.calc_dist(node0)
+    print(sum)

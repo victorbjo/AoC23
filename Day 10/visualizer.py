@@ -1,13 +1,18 @@
 from PIL import Image
 import numpy as np
 
-def create_collage(image_files, arrangement):
+def create_collage(arrangement):
     img_path = "Day 10/sprites/"
-    pipe2img = {"F":("L",90),"7":("L",180),"L":("L",270),"J":("L",0),"|":("I",0),"-":("I",90),".":("dot",0),"O":("dot",0),"K":("fill",0),"S":("S",0)}
+    pipe2img = {"F":("L",0),"7":("L",270),"L":("L",90),"J":("L",180),"|":("I",0),"-":("I",90),".":("dot",0),"O":("dot",0),"k":("fill",0),"S":("S",0)}
     img_path = "Day 10/sprites/"
-    images = {}
-    for key in pipe2img:
-        pass
+    l_img = Image.open(img_path+"L0.png")
+    s_img = Image.open(img_path+"S0.png")
+    i_img = Image.open(img_path+"I0.png")
+    fill_img = Image.open(img_path+"fill.png")
+    dot_img = Image.open(img_path+"dot.png")
+    images = {"L":l_img,"S":s_img,"I":i_img,"fill":fill_img,"dot":dot_img}
+    #for key in pipe2img:
+        #pass
     """
     Creates a collage from a set of images, with specified rotations and arrangement.
 
@@ -28,22 +33,25 @@ def create_collage(image_files, arrangement):
     for row_index, row in enumerate(arrangement):
         for col_index, cell in enumerate(row):
             # Get the corresponding image and its rotation
-            img = image_files[cell].rotate(rotations[row_index][col_index])
+            
+            #img = pipe2img[cell]#.rotate(rotations[row_index][col_index])
+            img = images[pipe2img[cell][0]].rotate(pipe2img[cell][1])
             # Calculate position
             position = (col_index * cell_size[0], row_index * cell_size[1])
             # Paste the rotated image onto the collage
             collage.paste(img, position)
 
     return collage
-img_path = "Day 10/sprites/"
-straight = "I"
-corner = "L"
+if __name__ == "__main__":
+    img_path = "Day 10/sprites/"
+    straight = "I"
+    corner = "L"
 
 
-images = [img0, img1, img2]
-rotations = [[0, 90, 180], [270, 0, 90], [180, 180, 180]]
-arrangement = [[0, 2, 1], [1, 0, 2], [1, 1, 1]]
-collage = create_collage(images, rotations, arrangement)
-collage.show()
+    #images = [img0, img1, img2]
+    rotations = [[0, 90, 180], [270, 0, 90], [180, 180, 180]]
+    arrangement = [[0, 2, 1], [1, 0, 2], [1, 1, 1]]
+    arrangement_letter = [["F","F","7"],["-","S","-"],["L","L","J"]]
+    collage = create_collage(arrangement_letter)
+    collage.show()
 
-arrangment_letter = [["F","_","7"],["|","|","0"],["L","J","."]]

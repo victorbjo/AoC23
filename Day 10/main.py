@@ -179,4 +179,8 @@ def part2(loop = new_loop):
     print(dots)
     for line in new_list:
         print("".join(line))
+    print(new_list)
+    import visualizer
+    collage = visualizer.create_collage(new_list)
+    collage.show()
 part2()
