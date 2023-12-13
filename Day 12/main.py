@@ -2,7 +2,6 @@ input = open("Day 12/input.txt", "r").read().split("\n")
 import time
 from functools import cache
 
-@cache
 def check(spring_set : list, chart_set: list, counter = 0, active = False):
         #print(spring_set, chart_set, counter, active)
         #time.sleep(0)
@@ -42,26 +41,29 @@ def check(spring_set : list, chart_set: list, counter = 0, active = False):
         return temp_sum
 
 sum = 0
-for x, line in enumerate(input):
-    print(x)
-    chart, springs = line.split(" ")
-    chart += "?"
-    chart *= 5
-    chart = chart[:-1]
-    springs += ","
-    springs *= 5
-    springs = springs[:-1]
-    springs = springs.split(",")
-    springs = list(map(int, springs))
-    #chart = chart.split(".")
-    chart = list(chart)
-    #print(springs)
-    #print(chart, "CHART")
-    known_springs = []
-    temp_springs = []
-    #print("")
+import time
+then = time.time()
+for x in range(10):
+    for x, line in enumerate(input):
+        #print(x)
+        chart, springs = line.split(" ")
+        #chart += "?"
+        #chart *= 5
+        #chart = chart[:-1]
+        #springs += ","
+        #springs *= 5
+        #springs = springs[:-1]
+        springs = springs.split(",")
+        springs = list(map(int, springs))
+        #chart = chart.split(".")
+        chart = list(chart)
+        #print(springs)
+        #print(chart, "CHART")
+        known_springs = []
+        temp_springs = []
+        #print("")
 
-    sum += check(springs, chart)
-print(sum)
-    
+        sum += check(springs, chart)
+    print(sum)
+print(time.time()-then)    
     
