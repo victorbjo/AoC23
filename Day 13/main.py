@@ -1,3 +1,5 @@
+from multiprocessing import Pool
+import time
 input = open("Day 13/input.txt", "r").read().split("\n\n")
 
 def find_difference(list0, list1):
@@ -45,6 +47,11 @@ def part1():
     return analyze_patterns(0)
 def part2():
     return analyze_patterns(1)
-
-print(part1())
-print(part2())
+then = time.time()
+for x in range(100):
+    part1()
+part1_time = time.time()
+for x in range(100):
+   part2()
+print(f"Part 1 took {part1_time-then} seconds")
+print(f"Part 2 took {time.time()-part1_time} seconds")

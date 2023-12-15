@@ -1,9 +1,17 @@
-seq1 = ['.#######..#..', '...#.#.#...##', '...#.#.#....#', '.#######..#.#']
-seq2 = ['.#######..#..', '...#.#.#...##', '...#.#.#....#', '.#######..#..']
-seq1 = ['###..####', '....###.#']
-seq2 = ['#.#.##...', '....###.#']
-seq1 = "".join(seq1)
-seq2 = "".join(seq2)
-count = sum(1 for a, b in zip(seq1, seq2) if a != b)
-print(count)
-print(seq1)
+class bcolors:
+    HEADER = '\033[33m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+print(f"{bcolors.WARNING}Warning: No active frommets remain. Continue?{bcolors.ENDC}")
+print(f"{bcolors.HEADER}Warning: No active frommets remain. Continue?{bcolors.ENDC}")
+dicts = {}
+dicts.update({"fuck":22})
+dicts.update({"fucks":24})
+for key in dicts.keys():
+    print(key)
