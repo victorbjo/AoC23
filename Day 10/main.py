@@ -11,7 +11,7 @@ class pipe():
 for line in input:
     if line.count("S"):
         start = (input.index(line), line.index("S"))
-print(start)
+
 pipe_types = {
 "|":[(-1,0),(1,0)], #is a vertical pipe connecting north and south. (0,0, top left corner)
 "-":[(0,-1),(0,1)], #is a horizontal pipe connecting east and west.
@@ -38,7 +38,6 @@ def breath_first_search(start, loop = loop):
             continue
         max_dist = max(max_dist, current_pipe.dist)
         pipes_visited.append(current_pipe.coordinates)
-        #pipes_visited.append(current_pipe)
         for pipe_type in pipe_types[current_pipe.type]:
             new_coords = (current_pipe.coordinates[0]+pipe_type[0], current_pipe.coordinates[1]+pipe_type[1])
             if new_coords[0] < 0 or new_coords[1] < 0 or new_coords[0] >= len(loop) or new_coords[1] >= len(loop[0]):
@@ -47,14 +46,12 @@ def breath_first_search(start, loop = loop):
                 new_pipe = pipe(current_pipe.dist+1, loop[new_coords[0]][new_coords[1]], new_coords)
                 if check_compat(current_pipe, new_pipe):
                     pipes_q.append(new_pipe)
-                #print(new_pipe,check_compat(current_pipe, new_pipe))
-        #time.sleep(4)
-        #print(current_pipe.dist, current_pipe.coordinates, current_pipe.type)
+
     return(max_dist, pipes_visited)
 def part1(): #Breadth first search
     start_pipe = pipe(0, "S", start)
     return breath_first_search(start_pipe)[0]
-#print(part1())
+
 
 replace = {
     "L": [[",","|",","],[",","L","-"],[",",",",","]],
@@ -70,7 +67,6 @@ replace = {
 def part2():
     start_pipe = pipe(0, "S", start)
     loop_visited = breath_first_search(start_pipe)[1]
-    print("Breath first search done")
     horizontal = [] #Lists used to start search
     vertical = [] #Basically go out from these points, if they are not part of loop visited, then add to list
     for i in range(2):
@@ -95,18 +91,15 @@ def part2():
         count += loop[current_tile[0]][current_tile[1]] == "."
         if loop[current_tile[0]][current_tile[1]] == ".":
             loop[current_tile[0]][current_tile[1]] = "O"
-        if current_tile in [(3,3), (2,4), (2,2), (1,3)]:
-            print("Found", current_tile)
+
         for direction in directions:
             new_coords = (current_tile[0]+direction[0], current_tile[1]+direction[1])
             if new_coords[0] < 0 or new_coords[1] < 0 or new_coords[0] >= len(loop) or new_coords[1] >= len(loop[0]):
                 continue
-            if new_coords == (6,8):
-                print("Found", current_tile)
+
             queue.append(new_coords)
-    for line in loop:
-        print("".join(line))
-    print(count)
+
+    return(count)
 
 #part2()
 new_loop = [["0" for x in range(len(loop[0])*3)] for x in range(len(loop)*3)]
@@ -115,15 +108,12 @@ for x in range(len(loop)):
         for i in range(3):
             for j in range(3):  
                 new_loop[x*3+i][y*3+j] = replace[loop[x][y]][i][j]
-for line in new_loop:
-    print("".join(line))
+
 
 loop0 = loop
 def part2(loop = new_loop):
-    print("Starting part 2")
     start_pipe = pipe(0, "S", (start[0]*3+1, start[1]*3+1))
     loop_visited = breath_first_search(start_pipe, new_loop)[1]
-    print("Breath first search done")
     horizontal = [] #Lists used to start search
     vertical = [] #Basically go out from these points, if they are not part of loop visited, then add to list
     for i in range(2):
@@ -136,7 +126,6 @@ def part2(loop = new_loop):
     #print(queue)
     count = 0
     directions = (0,1),(0,-1),(1,0),(-1,0)
-    print("Starting loop")
     while queue:
         current_tile = queue.pop(0)
         if current_tile in visited or current_tile in loop_visited:
@@ -155,14 +144,11 @@ def part2(loop = new_loop):
             if new_coords[0] < 0 or new_coords[1] < 0 or new_coords[0] >= len(loop) or new_coords[1] >= len(loop[0]):
                 continue
             queue.append(new_coords)
-    print("Done")
     for char in loop_visited:
         new_loop[char[0]][char[1]] = "X"
-    for line in loop:
-        print("".join(line))
-    print(count)
+    #print(count)
     dots = 0
-    print(dots)
+    #print(dots)
     new_list = []
     for x in range(1, len(new_loop), 3):
         new_list.append([])
@@ -175,12 +161,7 @@ def part2(loop = new_loop):
                 #dots += 1
             else:
                 new_list[-1].append("O")
-            
-    print(dots)
-    for line in new_list:
-        print("".join(line))
-    print(new_list)
+          
     import visualizer
     collage = visualizer.create_collage(new_list)
     collage.show()
-part2()

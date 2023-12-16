@@ -1,5 +1,5 @@
 def part1():
-    input = open("input.txt").read().split("\n")
+    input = open("Day 07/input.txt").read().split("\n")
     card_lookup = {"A":14,"K":13,"Q":12,"J":11,"T":10}
     hand_types = [[] for _ in range(7)]
     def replace_chars(s_list):
@@ -50,12 +50,12 @@ def part1():
             #print(hand, "RANK", rank, count_unique(hand[:-1]))
             sum += int(hand[-1])*rank
             rank += 1
-    print(sum)
+    return(sum)
 
 
 
 def part2():
-    input = open("input.txt").read().split("\n")
+    input = open("Day 07/input.txt").read().split("\n")
     card_lookup = {"A":14,"K":13,"Q":12,"J":0,"T":11}
     hand_types = [[] for _ in range(7)]
     def replace_chars(s_list):

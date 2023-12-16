@@ -1,6 +1,6 @@
 import math
 def part1():
-    input = open("input.txt", "r").read().split("\n")
+    input = open("Day 03/input.txt", "r").read().split("\n")
     numbers = []
     numCoords = []
     symCoords = []
@@ -38,12 +38,12 @@ def part1():
     for num in numbers:
         if num[1] == True:
             sum += num[0]
-    print(sum)
+    return(sum)
 
 
 
 def part2():
-    input = open("input.txt", "r").read().split("\n")
+    input = open("Day 03/input.txt", "r").read().split("\n")
     numbers = []
     numCoords = []
     symCoords = []
@@ -87,6 +87,6 @@ def part2():
             sum += nums_legal[0] * nums_legal[1]
 
 
-    print(sum)
-part2()
+    return(sum)
+
 

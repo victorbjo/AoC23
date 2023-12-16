@@ -40,13 +40,6 @@ def part2():
             else:
                 card_amount_queue.append(card_amount)
         sum += card_amount
-    print(sum)
+    return(sum)
 
 
-#part1()
-#Time the function part2
-import time
-start_time = time.time()
-for x in range(100):
-    part2()
-print("--- %s seconds ---" % (time.time() - start_time))

@@ -23,7 +23,7 @@ def part1():
             next = directions_list[next_node][1].strip()
         next_node = name_list.index(next)
         if next == "ZZZ":
-            print("Found ZZ", x+1)
+            return x+1
             break
         elif x == len(directions)-1:
             directions += directions_base
@@ -47,7 +47,7 @@ def part2():
             nodes.append(x)
     for node in nodes:
         next_node = node
-        print(next_node)
+        #print(next_node)
         for x, char in enumerate(directions):
             if char == "L":
                 next = directions_list[next_node][0].strip()
@@ -55,7 +55,7 @@ def part2():
                 next = directions_list[next_node][1].strip()
             next_node = name_list.index(next)
             if next[-1] == "Z":
-                print("Found ZZ", x+1)
+                #print("Found ZZ", x+1)
                 answers.append(x+1)
                 break
             elif x == len(directions)-1:

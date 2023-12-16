@@ -1,4 +1,4 @@
-def part1():
+def part1_old():
     def calculate_distance(btn_time, race_time):
         dist = (race_time-btn_time)*btn_time
         return dist
@@ -18,7 +18,7 @@ def part1():
 
 
 
-def part1_1():
+def part1():
     def calculate_distance(btn_time, race_time):
         dist = (race_time-btn_time)*btn_time
         return dist
@@ -41,7 +41,7 @@ def part1_1():
         highest_time = binary_search(0, int(time[x]), int(time[x]), int(race), False)
         race_time_sum = highest_time-lowest_time
         race_time_product*=race_time_sum
-    print(race_time_product)
+    return(race_time_product)
 
 
 
@@ -77,11 +77,11 @@ def part2_1():
         if calculate_distance(int(time)-int(y), int(time)) > int(distance):
             higher_bound = int(time)-int(y)
             break
-    print(higher_bound-lower_bound)
-    print(race_time_sum)
+    #print(higher_bound-lower_bound)
+    return(race_time_sum)
     pass
 
-def part2_2():
+def part2():
     def calculate_distance(btn_time, race_time):
         dist = (race_time-btn_time)*btn_time
         return dist 
@@ -99,15 +99,5 @@ def part2_2():
     distance = "".join(input[1].split(": ")[1].split())
     lower = (binary_search(0, int(time), int(time), int(distance)))
     higher = (binary_search(0, int(time), int(time), int(distance), False))
-    print(higher-lower)
+    return(higher-lower)
 
-#part1()
-#Time the function part2
-import time
-start_time = time.time()
-for x in range(1000):
-    part1_1()
-second_time = time.time()
-for x in range(1000):
-    part2_2()
-print(f"Time for first task: {second_time-start_time} seconds, time for second task: {time.time()-second_time} seconds")

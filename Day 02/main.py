@@ -1,5 +1,5 @@
-def part_1():
-    input = open("input.txt").read().split("\n")
+def part1():
+    input = open("Day 02/input.txt").read().split("\n")
     cubes = {"red":12,"green":13,"blue":14}
     sum = 0
     for x, game in enumerate(input):
@@ -15,9 +15,9 @@ def part_1():
         colors = {"red":0,"green":0,"blue":0}
     return sum
 
-def part_2():
+def part2():
     #return
-    input = open("input.txt").read().split("\n")
+    input = open("Day 02/input.txt").read().split("\n")
     sum = 0
     for x, game in enumerate(input):
         colors = {"red":0,"green":0,"blue":0}
@@ -28,4 +28,3 @@ def part_2():
                 colors[draws[3:].strip()] = max(colors[draws[3:].strip()],int(draws[:3]))
         sum += colors["blue"]*colors["green"]*colors["red"]
     return sum
-print(part_2())

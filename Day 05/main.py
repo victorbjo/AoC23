@@ -43,7 +43,7 @@ def part1():
             temp_val = get_value(temp_val, maps[x])
         scores.append([temp_val, seed])
     scores.sort(key=lambda z: z[0])
-    print(scores)
+    return(scores)
 combos = 1865197342
 def part2():
     import time
@@ -59,6 +59,6 @@ def part2():
             score = min(temp_val, score)
             if tests%1000000 == 0:
                 timer2 = time.time()
-                print(f"{round(tests/combos*100,4)}% in {round(timer2-timer0, 2)} seconds. ")
-    print(score)
+                #print(f"{round(tests/combos*100,4)}% in {round(timer2-timer0, 2)} seconds. ")
+    return(score)
 part2()

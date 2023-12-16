@@ -47,9 +47,9 @@ def get_sum(multi = 2):
             sum += node.calc_dist(node0)
     return(sum)
 def part1():
-    print(f"Part 1 {get_sum()}")
+    return(get_sum())
 def part2():
-    print(f"Part 2 {get_sum(1000000)}")
+    return(get_sum(1000000))
 if __name__ == "__main__":
     part1()
     part2()

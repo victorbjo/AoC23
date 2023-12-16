@@ -19,7 +19,7 @@ def part1():
         for number_set in numbers[1:]:
             last_val = last_val + int(number_set[-1])
             number_set.append(last_val)
-        print(last_val, "Last val")
+        #print(last_val, "Last val")
         sum += last_val
     return sum
 
@@ -51,4 +51,4 @@ def part2():
     return sum
 
 #print(part1())
-print(part2())
+#print(part2())
