@@ -2,13 +2,15 @@ from enum import Enum
 input = open("Day 16/input.txt", "r").read().split("\n")
 input = [list(x) for x in input]
 import copy
+import visualizer
+from visualizer import directions
 #input_copy = open("Day 16/input.txt", "r").read().split("\n")
 #input_copy = [list(x) for x in input]
-class directions(Enum):
+'''class directions(Enum):
     up = (-1,0)
     down = (1,0)
     left = (0,-1)
-    right = (0,1)
+    right = (0,1)'''
 class Beam:
     def __init__(self, coords, direction):
         self.coords = coords
@@ -19,17 +21,19 @@ class Beam:
         return f"Beam({self.coords}, Going {self.direction.name})"
     
 
-def handle_splitter(char, beam, beam_list):
+def handle_splitter(char, beam, beam_list, visited):
     if char == "|":
         if beam.direction == directions.up or beam.direction == directions.down:
             return
         else:
+            visited[beam.coords[0]][beam.coords[1]].append(beam.direction)
             beam.direction = directions.up
             beam_list.append(Beam(beam.coords, directions.down))
     elif char == "-":
         if beam.direction == directions.left or beam.direction == directions.right:
             return
         else:
+            visited[beam.coords[0]][beam.coords[1]].append(beam.direction)
             beam.direction = directions.left
             beam_list.append(Beam(beam.coords, directions.right))
 
@@ -45,13 +49,16 @@ def check_bounds(coords):
 
 import time
 import os
-
+def change(visited, count):
+    if count % 2 == 0:
+        visualizer.create_collage(input, visited).save(f"Day 16/images/{count}.png")
+    return count + 1
 def BFS(beam):
     input_copy = copy.deepcopy(input)
     beam_list = [beam]
     beam_cache = []
     visited = [[[] for y in range(len(input[0]))] for x in range(len(input))]
-
+    count = 0
     while len(beam_list) > 0:
         beam_list[0].move()
         if not check_bounds(beam_list[0].coords):
@@ -59,11 +66,12 @@ def BFS(beam):
             if len(beam_list) <= 1:
                 beam_list += beam_cache
                 beam_cache = []
+                count = change(visited, count)
             continue
         input_copy[beam_list[0].coords[0]][beam_list[0].coords[1]] = "X"
         temp_char = input[beam_list[0].coords[0]][beam_list[0].coords[1]]  
         if (temp_char in ["|", "-"]):
-            handle_splitter(temp_char, beam_list[0], beam_list)
+            handle_splitter(temp_char, beam_list[0], beam_list, visited)
         elif (temp_char in ["/", "\\"]):
             beam_list[0].direction = special[temp_char][beam_list[0].direction]
         #if temp_char == ".":
@@ -75,12 +83,17 @@ def BFS(beam):
             if len(beam_list) <= 1:
                 beam_list += beam_cache
                 beam_cache = []
+                count = change(visited, count)
             continue
+        #if directions.down in visited[4][4] or directions.up in visited[4][4]:
+            #print("TWTSASD")
         visited[beam_list[0].coords[0]][beam_list[0].coords[1]].append(beam_list[0].direction)
         beam_cache.append(beam_list.pop(0))
         if len(beam_list) <= 1:
             beam_list += beam_cache
             beam_cache = []
+            count = change(visited, count)
+        
         #time.sleep(0.5)
         
     #print(input[beam_list[0].coords[0]][beam_list[0].coords[1]])
@@ -89,11 +102,15 @@ def BFS(beam):
     xsum = 0
     for line in input_copy:
         xsum += line.count("X")
-    return(xsum)
+    return(xsum, visited)
 
 def part1():
     start_beams = Beam((0,-1), directions.right)
-    return BFS(start_beams)
+    part1_sum, visited = BFS(start_beams)
+    #print(visited[2][2])
+    #print(visited[6][0], input[6][0])
+    #visualizer.create_collage(input, visited).save("Day 16/images/visualizer.png")
+    return part1_sum
 
 def part2():
     max_sum = 0

@@ -15,3 +15,8 @@ dicts.update({"fuck":22})
 dicts.update({"fucks":24})
 for key in dicts.keys():
     print(key)
+dirs = [1,2,3,4,5,1,1]
+dirs.remove(1)
+print(dirs)
+dicts = {(1,1,1,1):3,(1,1,1,2):4}
+print((1,1,1,2) in dicts)
