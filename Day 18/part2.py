@@ -5,6 +5,7 @@ class Direction(Enum):
     D = (0, 1)
     L = (-1, 0)
     R = (1, 0)
+color2dir = {3: Direction.U, 1: Direction.D, 2: Direction.L, 0: Direction.R}
 lagoon = [["."]]
 corners = []
 size_lagoon =[1,1]
@@ -33,6 +34,10 @@ sum_edge = 0
 for y, line in enumerate(input):    
     line_split = line.split()
     direction, amount, color = line_split[0], int(line_split[1]), line_split[2]
+    direction = color2dir[int(color[-2:-1])].name
+    amount_color = color[2:-2]
+    amount = int(amount_color, 16)
+    #print(amount_color, direction_color)
     #for x in range(amount):
     sum_edge += amount
     #old_pos = current_pos.copy()
