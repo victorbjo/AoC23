@@ -18,5 +18,5 @@ for key in dicts.keys():
 dirs = [1,2,3,4,5,1,1]
 dirs.remove(1)
 print(dirs)
-dicts = {(1,1,1,1):3,(1,1,1,2):4}
-print((1,1,1,2) in dicts)
+test = {"a":1,"a":2}
+print(test["a"])
