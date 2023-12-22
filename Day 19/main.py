@@ -25,63 +25,53 @@ for ruleKey in rules_dict:
                 rule_value = rule == "A"    
             rules_dict[ruleKey][rules_dict[ruleKey].index(rule)] = rule_value
             _rule_dict["end"] = rule_value
-    #rules_dict[ruleKey] = _rule_dict
-#for ruleKey in rules_dict: #Rule printing
-#    print(ruleKey, rules_dict[ruleKey])
 
+
+#Parsing of the data
+xmas = []
+for data_line in data:
+    xmas_temp = {}
+    data_line = data_line[1:-1].split(",")
+    for data in data_line:
+        data = data.split("=")
+        xmas_temp[data[0]] = int(data[1])
+    xmas.append(xmas_temp)
 
 #This is not working. This should be a somewhat recursive function that parses the rules and returns the result
 #It needs to be done for each letter, and if a letter is not defined go straight to last rule
-
-
-
-
-def parse_rule(rules, values):
-        result = None
-        if "<" in rule or ">" in rule: #Check if needs to compare
-            letter = rule[0]#Parsing
-            operator = rule[1]
-            value = int(rule[2:rule.index(":")])
-            happen = rule[rule.index(":")+1:]
-            if operator == "<":#Compares
-                if values[letter] < value:
-                    result = happen
-            elif operator == ">":
-                if values[letter] > value:
-                    result = happen
-        else:#If not comparing, then just return the rule
-            result = rule
-        if result != None:#If there is a result, then it can be returned
-            if result == "A" or result == "R":#If it is a accepted or rejected, then return bool
-                return result == "A"
-            else:
-                return result #If not, then return the rule's consequence
-def rule_in(rules, values, letter):
+def rule_in(rules, values):
     rule = rules["in"]
-    result = parse_rule(rule, values, letter)
-    print("Result", result)
+    result = parse_rule(rule, values)
+    return result
 
-def parse_rule(ruleset, values, letter):
-    #print("Parsing", ruleset, values, letter)
-    value = values[letter]
+def parse_rule(ruleset, values):
+    #print("Parsing", ruleset, values)
+    #value = values[letter]
     for rule in ruleset:
         result = None
         if type(rule) == str or type(rule) == bool:
             if type(rule) == bool:
                 return rule
-            result = parse_rule(rules_dict[rule], values, letter)
-        elif rule[0] == letter:
-            if rule[1] == "<":
-                if value < rule[2]:
-                    result = parse_rule(rules_dict[rule[3]], values, letter)
-            elif rule[1] == ">":
-                if value > rule[2]:
-                    result = parse_rule(rules_dict[rule[3]], values, letter)
+            result = parse_rule(rules_dict[rule], values)
+        
+        elif rule[1] == "<":
+            if values[rule[0]] < rule[2]:
+                if type(rule[3]) == bool:
+                    return rule[3]
+                result = parse_rule(rules_dict[rule[3]], values)
+        elif rule[1] == ">":
+            if values[rule[0]] > rule[2]:
+                if type(rule[3]) == bool:
+                    return rule[3]
+                result = parse_rule(rules_dict[rule[3]], values)
         if result == True or result == False:
             return result
-rule_in(rules_dict, {"x":0,"m":1,"a":3400,"s":1350}, "s")
-test = {"x":0,"m":1,"a":3400,"s":1350}
-for key in test:
-    #rule_in(rules_dict, {"x":0,"m":1,"a":3400,"s":1350}, key)
-#Okay I did this slightly wrong. It should be done for each letter, and if perform each rule. As soon as R or A is returned, then return that
-#Then sum XMAS rating if A and sum all sums
+        
+def part1():
+    temp_sum = 0
+    for dict_temp in xmas:
+        if rule_in(rules_dict, dict_temp):
+            for value in dict_temp.values():
+                temp_sum += int(value)
+    print(temp_sum)
+print(4000*4000*4000*4000)
